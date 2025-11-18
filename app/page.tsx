@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { TypewriterText } from "@/components/TypewriterText";
 import {
   Plus,
   Ticket,
@@ -221,15 +222,7 @@ export default function Home() {
             transition={{ duration: 0.6, delay: 0.1 }}
           >
             Painéis que{" "}
-            <span className="relative inline-block">
-              <span className="relative z-10">conectam</span>
-              <motion.span
-                className="absolute bottom-2 left-0 w-full h-4 bg-[var(--versopag-primary)]/20 -z-0"
-                initial={{ width: 0 }}
-                animate={{ width: "100%" }}
-                transition={{ duration: 0.8, delay: 0.5 }}
-              />
-            </span>
+            <TypewriterText words={["conectam", "engajam", "transformam"]} />
           </motion.h1>
 
           <motion.p
