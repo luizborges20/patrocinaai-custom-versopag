@@ -1,15 +1,14 @@
-"use client";
-
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import {
-  Plus,
-  Ticket,
-  User,
-  Settings,
-  Calendar,
-  LogOut,
+import { motion } from "motion/react";
+import { Button } from "./components/ui/button";
+import { Card } from "./components/ui/card";
+import { 
+  Plus, 
+  Ticket, 
+  User, 
+  Settings, 
+  Calendar, 
+  LogOut, 
   Menu,
   QrCode,
   Tv,
@@ -18,13 +17,15 @@ import {
   BarChart3,
   ArrowRight,
   Check,
+  Sparkles,
   Shield,
   Globe,
+  Clock,
   Eye
 } from "lucide-react";
-import Image from "next/image";
+import versoPagLogo from "figma:asset/8d517249a2aae9305d6d0ae0f9e6d6313dd6f337.png";
 
-export default function Home() {
+export default function App() {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [hoveredFeature, setHoveredFeature] = useState<number | null>(null);
 
@@ -40,16 +41,16 @@ export default function Home() {
           <div className="relative flex items-center justify-center h-14">
             {/* Navigation - Desktop Left */}
             <div className="hidden md:flex items-center space-x-4 absolute left-0">
-              <Button
-                variant="ghost"
+              <Button 
+                variant="ghost" 
                 onClick={onGoToProducerArea}
                 className="flex items-center space-x-2 text-gray-700 hover:text-gray-900 hover:bg-[var(--versopag-accent)]"
               >
                 <Plus className="h-4 w-4" />
                 <span>Criar evento</span>
               </Button>
-              <Button
-                variant="ghost"
+              <Button 
+                variant="ghost" 
                 onClick={onGoToProducerArea}
                 className="flex items-center space-x-2 text-gray-700 hover:text-gray-900 hover:bg-[var(--versopag-accent)]"
               >
@@ -60,11 +61,9 @@ export default function Home() {
 
             {/* Logo Centralizada */}
             <div className="flex items-center justify-center">
-              <Image
-                src="/versopag-logo.png"
-                alt="VersoPag"
-                width={120}
-                height={24}
+              <img 
+                src={versoPagLogo}
+                alt="VersoPag" 
                 className="h-6 w-auto"
               />
             </div>
@@ -72,8 +71,8 @@ export default function Home() {
             {/* Profile - Desktop Right */}
             <div className="hidden md:flex items-center absolute right-0">
               <div className="relative">
-                <Button
-                  variant="ghost"
+                <Button 
+                  variant="ghost" 
                   onClick={() => setShowProfileMenu(!showProfileMenu)}
                   className="flex items-center gap-2 text-gray-700 hover:bg-transparent px-0 py-0 h-auto"
                 >
@@ -81,7 +80,7 @@ export default function Home() {
                   <div className="h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-[var(--versopag-accent)] transition-colors cursor-pointer">
                     <span className="text-sm text-gray-700">UT</span>
                   </div>
-
+                  
                   {/* User Info */}
                   <div className="flex flex-col items-start">
                     <span className="text-sm text-gray-900">Usuário Teste</span>
@@ -92,15 +91,15 @@ export default function Home() {
                 {/* Profile Dropdown Menu */}
                 {showProfileMenu && (
                   <>
-                    <div
-                      className="fixed inset-0 z-40"
+                    <div 
+                      className="fixed inset-0 z-40" 
                       onClick={() => setShowProfileMenu(false)}
                     />
                     <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
                       <div className="px-3 py-2 border-b border-gray-100">
                         <p className="text-sm font-medium text-gray-900">Minha Conta</p>
                       </div>
-
+                      
                       <button
                         onClick={() => {
                           setShowProfileMenu(false);
@@ -175,25 +174,25 @@ export default function Home() {
       <section className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-40 relative overflow-hidden">
         {/* Abstract Background Elements */}
         <div className="absolute inset-0 -z-10">
-          <motion.div
+          <motion.div 
             className="absolute top-20 right-20 w-96 h-96 bg-[var(--versopag-primary)]/5 rounded-full blur-3xl"
-            animate={{
+            animate={{ 
               scale: [1, 1.2, 1],
               opacity: [0.3, 0.5, 0.3]
             }}
-            transition={{
+            transition={{ 
               duration: 8,
               repeat: Infinity,
               ease: "easeInOut"
             }}
           />
-          <motion.div
+          <motion.div 
             className="absolute bottom-20 left-20 w-96 h-96 bg-[var(--versopag-secondary)]/5 rounded-full blur-3xl"
-            animate={{
+            animate={{ 
               scale: [1.2, 1, 1.2],
               opacity: [0.5, 0.3, 0.5]
             }}
-            transition={{
+            transition={{ 
               duration: 8,
               repeat: Infinity,
               ease: "easeInOut",
@@ -213,8 +212,8 @@ export default function Home() {
               <span className="text-sm text-gray-600">Sistema de Patrocínio Interativo</span>
             </div>
           </motion.div>
-
-          <motion.h1
+          
+          <motion.h1 
             className="text-6xl lg:text-7xl xl:text-8xl mb-8 text-gray-900 tracking-tight"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -223,7 +222,7 @@ export default function Home() {
             Painéis que{" "}
             <span className="relative inline-block">
               <span className="relative z-10">conectam</span>
-              <motion.span
+              <motion.span 
                 className="absolute bottom-2 left-0 w-full h-4 bg-[var(--versopag-primary)]/20 -z-0"
                 initial={{ width: 0 }}
                 animate={{ width: "100%" }}
@@ -231,31 +230,31 @@ export default function Home() {
               />
             </span>
           </motion.h1>
-
-          <motion.p
+          
+          <motion.p 
             className="text-xl lg:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            QR codes que transformam participantes em protagonistas.
+            QR codes que transformam participantes em protagonistas. 
             Painéis customizáveis que aparecem no telão em tempo real.
           </motion.p>
-
-          <motion.div
+          
+          <motion.div 
             className="flex flex-col sm:flex-row gap-4 justify-center items-center"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <Button
+            <Button 
               className="bg-[var(--versopag-secondary)] text-white hover:bg-[var(--versopag-secondary)]/90 px-8 py-6 group"
             >
               Começar agora
               <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
             </Button>
-            <Button
-              variant="ghost"
+            <Button 
+              variant="ghost" 
               className="px-8 py-6 group"
             >
               Ver demonstração
@@ -264,7 +263,7 @@ export default function Home() {
           </motion.div>
 
           {/* Stats */}
-          <motion.div
+          <motion.div 
             className="grid grid-cols-3 gap-8 mt-24 max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -290,7 +289,7 @@ export default function Home() {
       <section className="w-full bg-gradient-to-b from-gray-50 to-white py-32">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-5 gap-12 items-center">
-            <motion.div
+            <motion.div 
               className="lg:col-span-2"
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -302,8 +301,8 @@ export default function Home() {
                 Zero fricção.
               </h2>
               <p className="text-xl text-gray-600 mb-8">
-                Quando um participante escaneia o QR code,
-                sua empresa aparece instantaneamente no telão.
+                Quando um participante escaneia o QR code, 
+                sua empresa aparece instantaneamente no telão. 
                 Simples assim.
               </p>
               <div className="space-y-4">
@@ -328,7 +327,7 @@ export default function Home() {
               </div>
             </motion.div>
 
-            <motion.div
+            <motion.div 
               className="lg:col-span-3"
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -383,7 +382,7 @@ export default function Home() {
                 </div>
 
                 {/* Floating Element */}
-                <motion.div
+                <motion.div 
                   className="absolute -bottom-6 -right-6 bg-white rounded-2xl shadow-xl p-6 border border-gray-200"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -409,7 +408,7 @@ export default function Home() {
       {/* Features - Minimalist Grid */}
       <section className="py-32">
         <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
+          <motion.div 
             className="max-w-3xl mb-20"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -468,7 +467,7 @@ export default function Home() {
                 onHoverEnd={() => setHoveredFeature(null)}
                 whileHover={{ y: -4 }}
               >
-                <motion.div
+                <motion.div 
                   className="h-12 w-12 rounded-xl bg-gray-50 flex items-center justify-center mb-4 text-gray-700 group-hover:bg-[var(--versopag-primary)]/10 group-hover:text-[var(--versopag-primary)] transition-colors"
                   animate={{ scale: hoveredFeature === index ? 1.1 : 1 }}
                   transition={{ duration: 0.2 }}
@@ -477,8 +476,8 @@ export default function Home() {
                 </motion.div>
                 <h3 className="text-xl mb-2 text-gray-900">{feature.title}</h3>
                 <p className="text-gray-600">{feature.description}</p>
-
-                <motion.div
+                
+                <motion.div 
                   className="absolute bottom-0 left-0 h-1 bg-[var(--versopag-primary)]"
                   initial={{ width: 0 }}
                   animate={{ width: hoveredFeature === index ? "100%" : 0 }}
@@ -493,7 +492,7 @@ export default function Home() {
       {/* How it Works - Stepped */}
       <section className="bg-gradient-to-b from-white to-gray-50 py-32">
         <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
+          <motion.div 
             className="text-center max-w-3xl mx-auto mb-24"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -570,7 +569,7 @@ export default function Home() {
       {/* Pricing - Clean Cards */}
       <section className="py-32">
         <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
+          <motion.div 
             className="text-center max-w-3xl mx-auto mb-20"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -612,8 +611,8 @@ export default function Home() {
               <motion.div
                 key={index}
                 className={`relative rounded-3xl p-8 ${
-                  plan.highlighted
-                    ? "bg-[var(--versopag-secondary)] text-white border-2 border-[var(--versopag-primary)]"
+                  plan.highlighted 
+                    ? "bg-[var(--versopag-secondary)] text-white border-2 border-[var(--versopag-primary)]" 
                     : "bg-white border border-gray-200"
                 }`}
                 initial={{ opacity: 0, y: 20 }}
@@ -656,10 +655,10 @@ export default function Home() {
                   ))}
                 </div>
 
-                <Button
+                <Button 
                   className={`w-full ${
-                    plan.highlighted
-                      ? "bg-[var(--versopag-primary)] text-[var(--versopag-secondary)] hover:bg-[var(--versopag-primary)]/90"
+                    plan.highlighted 
+                      ? "bg-[var(--versopag-primary)] text-[var(--versopag-secondary)] hover:bg-[var(--versopag-primary)]/90" 
                       : "bg-white text-gray-900 border border-gray-300 hover:bg-gray-50"
                   }`}
                 >
@@ -674,7 +673,7 @@ export default function Home() {
       {/* CTA - Bold & Simple */}
       <section className="py-32">
         <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
+          <motion.div 
             className="max-w-4xl mx-auto text-center"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -685,18 +684,18 @@ export default function Home() {
               Pronto para começar?
             </h2>
             <p className="text-xl lg:text-2xl text-gray-600 mb-12 max-w-2xl mx-auto">
-              Crie seu primeiro painel gratuitamente.
+              Crie seu primeiro painel gratuitamente. 
               Sem cartão de crédito necessário.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button
+              <Button 
                 className="bg-[var(--versopag-secondary)] text-white hover:bg-[var(--versopag-secondary)]/90 px-12 py-7 group"
               >
                 Criar painel grátis
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Button>
-              <Button
-                variant="outline"
+              <Button 
+                variant="outline" 
                 className="border-gray-300 px-12 py-7"
               >
                 Agendar demo
@@ -726,11 +725,9 @@ export default function Home() {
         <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-12 mb-12">
             <div>
-              <Image
-                src="/versopag-logo.png"
-                alt="VersoPag"
-                width={120}
-                height={24}
+              <img 
+                src={versoPagLogo}
+                alt="VersoPag" 
                 className="h-6 w-auto mb-4"
               />
               <p className="text-sm text-gray-600">

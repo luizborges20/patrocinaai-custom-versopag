@@ -1,55 +1,42 @@
-@import "tailwindcss";
+@custom-variant dark (&:is(.dark *));
 
 :root {
   --font-size: 16px;
-
-  /* ===================================
-     VERSOPAG BRAND COLORS - NUNCA MUDAR!
-     =================================== */
-  --versopag-primary: #00FF6E;        /* Verde Brilhante - Cor principal */
-  --versopag-secondary: #2E2E2E;      /* Cinza Escuro - Cor secundária */
-  --versopag-accent: #f0fff4;         /* Verde Claro - Accent */
-
-  /* System Colors - oklch format */
-  --radius: 0.65rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.141 0.005 285.823);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.141 0.005 285.823);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.141 0.005 285.823);
-
-  /* Primary mantém VersoPag Verde */
+  /* VersoPag Brand Colors */
+  --versopag-primary: #00FF6E;
+  --versopag-secondary: #2E2E2E;
+  --versopag-accent: #f0fff4;
+  
+  /* System Colors */
+  --background: #ffffff;
+  --foreground: #1a1a2e;
+  --card: #ffffff;
+  --card-foreground: #1a1a2e;
+  --popover: #ffffff;
+  --popover-foreground: #1a1a2e;
   --primary: #00FF6E;
   --primary-foreground: #2E2E2E;
-
-  --secondary: oklch(0.967 0.001 286.375);
-  --secondary-foreground: oklch(0.21 0.006 285.885);
-  --muted: oklch(0.967 0.001 286.375);
-  --muted-foreground: oklch(0.552 0.016 285.938);
-  --accent: oklch(0.967 0.001 286.375);
-  --accent-foreground: oklch(0.21 0.006 285.885);
-  --destructive: oklch(0.577 0.245 27.325);
+  --secondary: #f1f5f9;
+  --secondary-foreground: #1a1a2e;
+  --muted: #f8fafc;
+  --muted-foreground: #64748b;
+  --accent: #e2e8f0;
+  --accent-foreground: #1a1a2e;
+  --destructive: #dc2626;
   --destructive-foreground: #ffffff;
-  --border: oklch(0.92 0.004 286.32);
-  --input: oklch(0.92 0.004 286.32);
-  --input-background: oklch(0.967 0.001 286.375);
-  --switch-background: oklch(0.92 0.004 286.32);
-
-  /* Ring mantém VersoPag Verde */
-  --ring: #00FF6E;
-
+  --border: #e2e8f0;
+  --input: transparent;
+  --input-background: #f8fafc;
+  --switch-background: #cbd5e1;
   --font-weight-medium: 500;
   --font-weight-normal: 400;
-
-  /* Chart colors */
-  --chart-1: oklch(0.871 0.15 154.449);
-  --chart-2: oklch(0.723 0.219 149.579);
-  --chart-3: oklch(0.627 0.194 149.214);
-  --chart-4: oklch(0.527 0.154 150.069);
-  --chart-5: oklch(0.448 0.119 151.328);
-
-  /* Sidebar mantém VersoPag Colors */
+  --ring: #00FF6E;
+  --chart-1: #6366f1;
+  --chart-2: #8b5cf6;
+  --chart-3: #06b6d4;
+  --chart-4: #10b981;
+  --chart-5: #f59e0b;
+  --radius: 0.625rem;
   --sidebar: #2E2E2E;
   --sidebar-foreground: #ffffff;
   --sidebar-primary: #00FF6E;
@@ -61,50 +48,40 @@
 }
 
 .dark {
-  --background: oklch(0.141 0.005 285.823);
+  --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
-  --card: oklch(0.21 0.006 285.885);
+  --card: oklch(0.145 0 0);
   --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.21 0.006 285.885);
+  --popover: oklch(0.145 0 0);
   --popover-foreground: oklch(0.985 0 0);
-
-  /* Primary mantém VersoPag Verde no dark mode */
-  --primary: #00FF6E;
-  --primary-foreground: #2E2E2E;
-
-  --secondary: oklch(0.274 0.006 286.033);
+  --primary: oklch(0.985 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.274 0.006 286.033);
-  --muted-foreground: oklch(0.705 0.015 286.067);
-  --accent: oklch(0.274 0.006 286.033);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-
-  /* Ring mantém VersoPag Verde */
-  --ring: #00FF6E;
-
+  --destructive: oklch(0.396 0.141 25.723);
+  --destructive-foreground: oklch(0.637 0.237 25.331);
+  --border: oklch(0.269 0 0);
+  --input: oklch(0.269 0 0);
+  --ring: oklch(0.439 0 0);
   --font-weight-medium: 500;
   --font-weight-normal: 400;
-
-  /* Chart colors */
-  --chart-1: oklch(0.871 0.15 154.449);
-  --chart-2: oklch(0.723 0.219 149.579);
-  --chart-3: oklch(0.627 0.194 149.214);
-  --chart-4: oklch(0.527 0.154 150.069);
-  --chart-5: oklch(0.448 0.119 151.328);
-
-  /* Sidebar mantém VersoPag Colors no dark mode */
-  --sidebar: oklch(0.21 0.006 285.885);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: #00FF6E;
-  --sidebar-primary-foreground: #2E2E2E;
-  --sidebar-accent: oklch(0.274 0.006 286.033);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
   --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: #00FF6E;
+  --sidebar-border: oklch(0.269 0 0);
+  --sidebar-ring: oklch(0.439 0 0);
 }
 
 @theme inline {
