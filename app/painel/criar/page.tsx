@@ -664,13 +664,19 @@ export default function CriarPainelPage() {
                   {config.exibirQRCode && (
                     <>
                       <Field>
-                        <FieldLabel htmlFor="texto-qrcode-principal">Texto Principal do QR Code</FieldLabel>
+                        <div className="flex items-center justify-between mb-2">
+                          <FieldLabel htmlFor="texto-qrcode-principal">Texto Principal do QR Code</FieldLabel>
+                          <span className="text-xs text-gray-500">
+                            {config.textoQRCodePrincipal.length}/34
+                          </span>
+                        </div>
                         <Input
                           id="texto-qrcode-principal"
                           type="text"
                           value={config.textoQRCodePrincipal}
                           onChange={(e) => updateConfig({ textoQRCodePrincipal: e.target.value })}
                           placeholder="DIVULGUE SUA MARCA"
+                          maxLength={34}
                         />
                         <FieldDescription>
                           Texto em destaque ao lado do QR Code
@@ -678,13 +684,19 @@ export default function CriarPainelPage() {
                       </Field>
 
                       <Field>
-                        <FieldLabel htmlFor="texto-qrcode-secundario">Texto Secundário do QR Code</FieldLabel>
+                        <div className="flex items-center justify-between mb-2">
+                          <FieldLabel htmlFor="texto-qrcode-secundario">Texto Secundário do QR Code</FieldLabel>
+                          <span className="text-xs text-gray-500">
+                            {config.textoQRCodeSecundario.length}/37
+                          </span>
+                        </div>
                         <Input
                           id="texto-qrcode-secundario"
                           type="text"
                           value={config.textoQRCodeSecundario}
                           onChange={(e) => updateConfig({ textoQRCodeSecundario: e.target.value })}
                           placeholder="ESCANEIE O QR CODE"
+                          maxLength={37}
                         />
                         <FieldDescription>
                           Texto menor abaixo do principal
