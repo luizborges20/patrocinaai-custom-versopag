@@ -7,7 +7,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
   Plus,
-  Ticket,
+  LayoutGrid,
   User,
   Settings,
   Calendar,
@@ -20,8 +20,12 @@ export function Header() {
   const router = useRouter();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
 
-  const onGoToProducerArea = () => {
-    router.push("/dashboard");
+  const handleCreatePanel = () => {
+    router.push("/painel/criar");
+  };
+
+  const handleMyPanels = () => {
+    router.push("/painel/meus-paineis");
   };
 
   const handleSignOut = async () => {
@@ -62,19 +66,19 @@ export function Header() {
               <>
                 <Button
                   variant="ghost"
-                  onClick={onGoToProducerArea}
+                  onClick={handleCreatePanel}
                   className="flex items-center space-x-2 text-gray-700 hover:text-gray-900 hover:bg-[var(--versopag-accent)]"
                 >
                   <Plus className="h-4 w-4" />
-                  <span>Criar evento</span>
+                  <span>Criar Painel</span>
                 </Button>
                 <Button
                   variant="ghost"
-                  onClick={onGoToProducerArea}
+                  onClick={handleMyPanels}
                   className="flex items-center space-x-2 text-gray-700 hover:text-gray-900 hover:bg-[var(--versopag-accent)]"
                 >
-                  <Ticket className="h-4 w-4" />
-                  <span>Meus ingressos</span>
+                  <LayoutGrid className="h-4 w-4" />
+                  <span>Meus Painéis</span>
                 </Button>
               </>
             )}
@@ -137,7 +141,7 @@ export function Header() {
                       <button
                         onClick={() => {
                           setShowProfileMenu(false);
-                          onGoToProducerArea();
+                          router.push("/dashboard");
                         }}
                         className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                       >
@@ -148,7 +152,7 @@ export function Header() {
                       <button
                         onClick={() => {
                           setShowProfileMenu(false);
-                          onGoToProducerArea();
+                          router.push("/dashboard");
                         }}
                         className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                       >
@@ -159,23 +163,23 @@ export function Header() {
                       <button
                         onClick={() => {
                           setShowProfileMenu(false);
-                          onGoToProducerArea();
+                          handleMyPanels();
                         }}
                         className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                       >
-                        <Ticket className="h-4 w-4" />
-                        <span>Meus Ingressos</span>
+                        <LayoutGrid className="h-4 w-4" />
+                        <span>Meus Painéis</span>
                       </button>
 
                       <button
                         onClick={() => {
                           setShowProfileMenu(false);
-                          onGoToProducerArea();
+                          handleCreatePanel();
                         }}
                         className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
                       >
-                        <Calendar className="h-4 w-4" />
-                        <span>Meus Eventos</span>
+                        <Plus className="h-4 w-4" />
+                        <span>Criar Painel</span>
                       </button>
 
                       <div className="border-t border-gray-100 my-1" />
