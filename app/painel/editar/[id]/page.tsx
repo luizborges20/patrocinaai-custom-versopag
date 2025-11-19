@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { Header } from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -63,11 +63,15 @@ interface ConfiguracaoPainel {
   exibirRedesSociais: boolean;
 }
 
-export default function CriarPainelPage() {
+export default function EditarPainelPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const params = useParams();
+  const painelId = params?.id as string;
+
   const [activeTab, setActiveTab] = useState<TabType>('basico');
   const [previewDevice, setPreviewDevice] = useState<'desktop' | 'mobile'>('desktop');
+  const [loading, setLoading] = useState(true);
 
   const [config, setConfig] = useState<ConfiguracaoPainel>({
     // Básico
@@ -106,8 +110,24 @@ export default function CriarPainelPage() {
   useEffect(() => {
     if (status === 'unauthenticated') {
       router.push('/login');
+      return;
     }
-  }, [status, router]);
+
+    // Carregar painel existente do localStorage
+    if (typeof window !== 'undefined' && painelId) {
+      const paineisSalvos = JSON.parse(localStorage.getItem('paineisSalvos') || '[]');
+      const painelExistente = paineisSalvos.find((p: any) => p.id === painelId);
+
+      if (painelExistente) {
+        setConfig(painelExistente);
+      } else {
+        alert('Painel não encontrado');
+        router.push('/painel/meus-paineis');
+      }
+
+      setLoading(false);
+    }
+  }, [status, router, painelId]);
 
   // Carregar fontes do Google Fonts dinamicamente
   useEffect(() => {
@@ -126,7 +146,7 @@ export default function CriarPainelPage() {
     loadFont(config.fonteCorpo);
   }, [config.fonteTitulo, config.fonteCorpo]);
 
-  if (status === 'loading') {
+  if (status === 'loading' || loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="text-gray-900 text-lg">Carregando...</div>
@@ -147,34 +167,39 @@ export default function CriarPainelPage() {
 
   const handleSave = async () => {
     try {
-      // Salvar no localStorage temporariamente
+      // Carregar painéis salvos
       const paineisSalvos = JSON.parse(localStorage.getItem('paineisSalvos') || '[]');
 
-      const novoPainel = {
-        id: Date.now().toString(),
-        ...config,
-        criadoEm: new Date().toISOString(),
-        atualizadoEm: new Date().toISOString(),
-      };
+      // Encontrar e atualizar o painel existente
+      const painelIndex = paineisSalvos.findIndex((p: any) => p.id === painelId);
 
-      paineisSalvos.push(novoPainel);
-      localStorage.setItem('paineisSalvos', JSON.stringify(paineisSalvos));
+      if (painelIndex !== -1) {
+        paineisSalvos[painelIndex] = {
+          ...paineisSalvos[painelIndex],
+          ...config,
+          atualizadoEm: new Date().toISOString(),
+        };
 
-      // Feedback visual
-      alert('Painel salvo com sucesso!');
+        localStorage.setItem('paineisSalvos', JSON.stringify(paineisSalvos));
 
-      // Redirecionar para página de painéis
-      router.push('/painel/meus-paineis');
+        // Feedback visual
+        alert('Painel atualizado com sucesso!');
 
-      // TODO: Implementar salvamento na API quando o backend estiver pronto
-      // const response = await fetch('/api/paineis', {
-      //   method: 'POST',
+        // Redirecionar para página de painéis
+        router.push('/painel/meus-paineis');
+      } else {
+        alert('Erro: Painel não encontrado');
+      }
+
+      // TODO: Implementar atualização na API quando o backend estiver pronto
+      // const response = await fetch(`/api/paineis/${painelId}`, {
+      //   method: 'PUT',
       //   headers: { 'Content-Type': 'application/json' },
       //   body: JSON.stringify(config),
       // });
     } catch (error) {
-      console.error('Erro ao salvar:', error);
-      alert('Erro ao salvar painel. Tente novamente.');
+      console.error('Erro ao atualizar:', error);
+      alert('Erro ao atualizar painel. Tente novamente.');
     }
   };
 
@@ -200,10 +225,10 @@ export default function CriarPainelPage() {
           <div className="space-y-6">
             <div>
               <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                Personalizar Painel
+                Editar Painel
               </h1>
               <p className="text-gray-600">
-                Configure seu painel e veja as mudanças em tempo real
+                Edite seu painel e veja as mudanças em tempo real
               </p>
             </div>
 
@@ -737,7 +762,7 @@ export default function CriarPainelPage() {
                 className="flex-1 bg-gray-900 text-white hover:bg-gray-800 py-6"
               >
                 <Save className="h-4 w-4 mr-2" />
-                Salvar Configuração
+                Salvar Alterações
               </Button>
               <Button
                 onClick={handlePreview}

@@ -15,33 +15,21 @@ import {
   QrCode as QrCodeIcon,
 } from 'lucide-react';
 
-// Mock data - em produção virá da API
-const mockPaineis = [
-  {
-    id: '1',
-    nome: 'Moto Fest 2025',
-    descricao: 'Evento de motociclismo',
-    criadoEm: '2025-01-15',
-    status: 'ativo',
-  },
-  {
-    id: '2',
-    nome: 'Festival de Música',
-    descricao: 'Grande festival musical',
-    criadoEm: '2025-01-10',
-    status: 'ativo',
-  },
-];
-
 export default function MeusPaineisPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [paineis, setPaineis] = useState(mockPaineis);
+  const [paineis, setPaineis] = useState<any[]>([]);
   const [menuAberto, setMenuAberto] = useState<string | null>(null);
 
   useEffect(() => {
     if (status === 'unauthenticated') {
       router.push('/login');
+    }
+
+    // Carregar painéis do localStorage
+    if (typeof window !== 'undefined') {
+      const paineisSalvos = JSON.parse(localStorage.getItem('paineisSalvos') || '[]');
+      setPaineis(paineisSalvos);
     }
   }, [status, router]);
 
@@ -67,14 +55,30 @@ export default function MeusPaineisPage() {
   };
 
   const handleDuplicarPainel = (id: string) => {
-    console.log('Duplicar painel:', id);
+    const painelOriginal = paineis.find((p) => p.id === id);
+
+    if (painelOriginal) {
+      const painelDuplicado = {
+        ...painelOriginal,
+        id: Date.now().toString(),
+        nomeEvento: `${painelOriginal.nomeEvento} (Cópia)`,
+        criadoEm: new Date().toISOString(),
+        atualizadoEm: new Date().toISOString(),
+      };
+
+      const novosPaineis = [...paineis, painelDuplicado];
+      setPaineis(novosPaineis);
+      localStorage.setItem('paineisSalvos', JSON.stringify(novosPaineis));
+    }
+
     setMenuAberto(null);
-    // TODO: Implementar duplicação
   };
 
   const handleExcluirPainel = (id: string) => {
     if (confirm('Tem certeza que deseja excluir este painel?')) {
-      setPaineis(paineis.filter((p) => p.id !== id));
+      const novosPaineis = paineis.filter((p) => p.id !== id);
+      setPaineis(novosPaineis);
+      localStorage.setItem('paineisSalvos', JSON.stringify(novosPaineis));
       setMenuAberto(null);
     }
   };
@@ -188,28 +192,33 @@ export default function MeusPaineisPage() {
                 </div>
 
                 {/* Preview do Painel */}
-                <div className="bg-gray-900 rounded-lg h-40 mb-4 flex items-center justify-center">
-                  <QrCodeIcon className="h-12 w-12 text-gray-600" />
+                <div
+                  className="rounded-lg h-40 mb-4 flex items-center justify-center overflow-hidden"
+                  style={{ backgroundColor: painel.corFundo || '#000000' }}
+                >
+                  {painel.logoEventoUrl ? (
+                    <img
+                      src={painel.logoEventoUrl}
+                      alt={painel.nomeEvento}
+                      className="h-20 w-20 object-contain"
+                    />
+                  ) : (
+                    <QrCodeIcon className="h-12 w-12" style={{ color: painel.corTexto || '#FFFFFF', opacity: 0.3 }} />
+                  )}
                 </div>
 
                 {/* Informações */}
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  {painel.nome}
+                  {painel.nomeEvento || 'Painel sem nome'}
                 </h3>
                 <p className="text-sm text-gray-600 mb-4 line-clamp-2">
-                  {painel.descricao}
+                  {painel.descricao || 'Sem descrição'}
                 </p>
 
                 {/* Status */}
                 <div className="flex items-center justify-between">
-                  <span
-                    className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                      painel.status === 'ativo'
-                        ? 'bg-green-100 text-green-800'
-                        : 'bg-gray-100 text-gray-800'
-                    }`}
-                  >
-                    {painel.status === 'ativo' ? 'Ativo' : 'Inativo'}
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                    Ativo
                   </span>
                   <span className="text-xs text-gray-500">
                     {new Date(painel.criadoEm).toLocaleDateString('pt-BR')}
