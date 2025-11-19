@@ -402,11 +402,195 @@ export default function Home() {
                 <div className={index % 2 === 1 ? "lg:order-1" : ""}>
                   <div className="bg-white rounded-3xl shadow-xl border border-gray-200 p-8 h-96 flex items-center justify-center relative overflow-hidden">
                     <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-white" />
-                    <div className="relative z-10 text-gray-400">
-                      {index === 0 && <Tv className="h-32 w-32" />}
-                      {index === 1 && <QrCode className="h-32 w-32" />}
-                      {index === 2 && <BarChart3 className="h-32 w-32" />}
-                    </div>
+
+                    {/* Step 1: Configure */}
+                    {index === 0 && (
+                      <div className="relative z-10 w-full h-full flex items-center justify-center">
+                        <div className="relative">
+                          {/* Main screen mockup */}
+                          <div className="w-64 h-52 bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl shadow-2xl border-4 border-gray-700 relative overflow-hidden">
+                            {/* Screen content */}
+                            <div className="absolute inset-0 p-4">
+                              <div className="grid grid-cols-2 gap-2 mb-3">
+                                <div className="h-16 bg-white/10 rounded-lg border border-white/20 flex items-center justify-center">
+                                  <div className="w-8 h-8 bg-gradient-to-br from-[var(--versopag-primary)] to-green-400 rounded" />
+                                </div>
+                                <div className="h-16 bg-white/10 rounded-lg border border-white/20 flex items-center justify-center">
+                                  <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-purple-400 rounded" />
+                                </div>
+                              </div>
+                              <div className="space-y-2">
+                                <div className="h-2 bg-white/20 rounded w-3/4" />
+                                <div className="h-2 bg-white/20 rounded w-1/2" />
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Floating palette */}
+                          <motion.div
+                            className="absolute -right-6 -bottom-4 bg-white rounded-xl shadow-lg p-3 border border-gray-200"
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.4, delay: 0.3 }}
+                          >
+                            <div className="flex gap-2">
+                              <div className="w-6 h-6 rounded-full bg-[var(--versopag-primary)]" />
+                              <div className="w-6 h-6 rounded-full bg-blue-500" />
+                              <div className="w-6 h-6 rounded-full bg-purple-500" />
+                            </div>
+                          </motion.div>
+
+                          {/* Floating icon */}
+                          <motion.div
+                            className="absolute -left-6 top-8 bg-[var(--versopag-primary)]/10 rounded-lg p-2"
+                            initial={{ opacity: 0, x: -20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.4, delay: 0.2 }}
+                          >
+                            <Tv className="h-6 w-6 text-[var(--versopag-primary)]" />
+                          </motion.div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Step 2: QR Codes */}
+                    {index === 1 && (
+                      <div className="relative z-10 w-full h-full flex items-center justify-center">
+                        <div className="relative">
+                          {/* Main QR Code */}
+                          <div className="bg-white rounded-2xl shadow-2xl p-6 border-4 border-gray-200">
+                            <div className="w-40 h-40 bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl flex items-center justify-center relative overflow-hidden">
+                              <QrCode className="h-24 w-24 text-[var(--versopag-primary)]" />
+
+                              {/* QR code pattern overlay */}
+                              <div className="absolute inset-0 opacity-10">
+                                <div className="grid grid-cols-8 grid-rows-8 h-full w-full">
+                                  {[...Array(64)].map((_, i) => (
+                                    <div key={i} className={`${Math.random() > 0.5 ? 'bg-white' : ''}`} />
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Floating mini QR codes */}
+                          <motion.div
+                            className="absolute -top-4 -right-4 bg-white rounded-lg shadow-lg p-2 border border-gray-200"
+                            initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
+                            whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.4, delay: 0.2 }}
+                          >
+                            <div className="w-12 h-12 bg-gray-100 rounded flex items-center justify-center">
+                              <QrCode className="h-8 w-8 text-gray-600" />
+                            </div>
+                          </motion.div>
+
+                          <motion.div
+                            className="absolute -bottom-4 -left-4 bg-white rounded-lg shadow-lg p-2 border border-gray-200"
+                            initial={{ opacity: 0, scale: 0.8, rotate: 10 }}
+                            whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.4, delay: 0.3 }}
+                          >
+                            <div className="w-12 h-12 bg-gray-100 rounded flex items-center justify-center">
+                              <QrCode className="h-8 w-8 text-gray-600" />
+                            </div>
+                          </motion.div>
+
+                          {/* Scan indicator */}
+                          <motion.div
+                            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48"
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.4, delay: 0.4 }}
+                          >
+                            <motion.div
+                              className="absolute inset-0 rounded-2xl border-2 border-[var(--versopag-primary)]/30"
+                              animate={{ scale: [1, 1.1, 1] }}
+                              transition={{ duration: 2, repeat: Infinity }}
+                            />
+                          </motion.div>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Step 3: Analytics */}
+                    {index === 2 && (
+                      <div className="relative z-10 w-full h-full flex items-center justify-center">
+                        <div className="relative">
+                          {/* Dashboard card */}
+                          <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl shadow-2xl p-6 border border-gray-700 w-72 relative overflow-hidden">
+                            {/* Header */}
+                            <div className="flex items-center justify-between mb-4">
+                              <div className="flex items-center gap-2">
+                                <div className="h-2 w-2 bg-[var(--versopag-primary)] rounded-full animate-pulse" />
+                                <span className="text-white text-xs">Ao vivo</span>
+                              </div>
+                              <BarChart3 className="h-4 w-4 text-white/60" />
+                            </div>
+
+                            {/* Stats */}
+                            <div className="grid grid-cols-2 gap-3 mb-4">
+                              <div className="bg-white/5 rounded-lg p-3 border border-white/10">
+                                <div className="text-2xl text-white mb-1">247</div>
+                                <div className="text-xs text-white/60">Participantes</div>
+                              </div>
+                              <div className="bg-white/5 rounded-lg p-3 border border-white/10">
+                                <div className="text-2xl text-white mb-1">89%</div>
+                                <div className="text-xs text-white/60">Engajamento</div>
+                              </div>
+                            </div>
+
+                            {/* Mini chart */}
+                            <div className="space-y-2">
+                              <div className="flex items-end gap-1 h-16">
+                                {[40, 70, 50, 80, 65, 90, 75].map((height, i) => (
+                                  <motion.div
+                                    key={i}
+                                    className="flex-1 bg-gradient-to-t from-[var(--versopag-primary)] to-green-400 rounded-t"
+                                    initial={{ height: 0 }}
+                                    whileInView={{ height: `${height}%` }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.4, delay: 0.2 + i * 0.05 }}
+                                  />
+                                ))}
+                              </div>
+                              <div className="flex justify-between text-xs text-white/40">
+                                <span>Seg</span>
+                                <span>Dom</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Floating success indicator */}
+                          <motion.div
+                            className="absolute -top-3 -right-3 bg-[var(--versopag-primary)] rounded-full p-2 shadow-lg"
+                            initial={{ opacity: 0, scale: 0 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.4, delay: 0.4 }}
+                          >
+                            <Check className="h-5 w-5 text-white" />
+                          </motion.div>
+
+                          {/* Floating notification */}
+                          <motion.div
+                            className="absolute -bottom-3 -left-3 bg-white rounded-lg shadow-lg p-2 border border-gray-200 flex items-center gap-2"
+                            initial={{ opacity: 0, y: 10 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.4, delay: 0.5 }}
+                          >
+                            <Users className="h-4 w-4 text-[var(--versopag-primary)]" />
+                            <span className="text-xs text-gray-600">+12 novos</span>
+                          </motion.div>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </motion.div>
