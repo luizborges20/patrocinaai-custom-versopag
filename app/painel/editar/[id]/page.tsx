@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { ImageUpload } from '@/components/ImageUpload';
+import { useToast } from '@/components/ui/toast';
 import {
   Field,
   FieldLabel,
@@ -66,6 +67,7 @@ interface ConfiguracaoPainel {
 export default function EditarPainelPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const { showToast } = useToast();
   const params = useParams();
   const painelId = params?.id as string;
 
@@ -121,7 +123,7 @@ export default function EditarPainelPage() {
       if (painelExistente) {
         setConfig(painelExistente);
       } else {
-        alert('Painel não encontrado');
+        showToast('Painel não encontrado', 'error');
         router.push('/painel/meus-paineis');
       }
 
@@ -183,12 +185,12 @@ export default function EditarPainelPage() {
         localStorage.setItem('paineisSalvos', JSON.stringify(paineisSalvos));
 
         // Feedback visual
-        alert('Painel atualizado com sucesso!');
+        showToast('Painel atualizado com sucesso!', 'success');
 
         // Redirecionar para página de painéis
         router.push('/painel/meus-paineis');
       } else {
-        alert('Erro: Painel não encontrado');
+        showToast('Erro: Painel não encontrado', 'error');
       }
 
       // TODO: Implementar atualização na API quando o backend estiver pronto
@@ -199,7 +201,7 @@ export default function EditarPainelPage() {
       // });
     } catch (error) {
       console.error('Erro ao atualizar:', error);
-      alert('Erro ao atualizar painel. Tente novamente.');
+      showToast('Erro ao atualizar painel. Tente novamente.', 'error');
     }
   };
 

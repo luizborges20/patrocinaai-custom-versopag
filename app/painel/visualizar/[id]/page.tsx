@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { X } from 'lucide-react';
+import { useToast } from '@/components/ui/toast';
 
 type Orientacao = 'horizontal' | 'vertical';
 type PosicaoLogo = 'topo' | 'laterais' | 'cantos' | 'centro';
@@ -37,6 +38,7 @@ interface ConfiguracaoPainel {
 
 export default function VisualizarPainelPage() {
   const router = useRouter();
+  const { showToast } = useToast();
   const params = useParams();
   const painelId = params?.id as string;
 
@@ -66,7 +68,7 @@ export default function VisualizarPainelPage() {
         loadFont(painelExistente.fonteTitulo);
         loadFont(painelExistente.fonteCorpo);
       } else {
-        alert('Painel não encontrado');
+        showToast('Painel não encontrado', 'error');
         router.push('/painel/meus-paineis');
       }
     }

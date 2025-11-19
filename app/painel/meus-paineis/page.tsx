@@ -13,6 +13,8 @@ import {
   Copy,
   Eye,
   QrCode as QrCodeIcon,
+  Search,
+  SortAsc,
 } from 'lucide-react';
 
 export default function MeusPaineisPage() {
@@ -20,6 +22,8 @@ export default function MeusPaineisPage() {
   const router = useRouter();
   const [paineis, setPaineis] = useState<any[]>([]);
   const [menuAberto, setMenuAberto] = useState<string | null>(null);
+  const [busca, setBusca] = useState('');
+  const [ordenacao, setOrdenacao] = useState<'recente' | 'antigo' | 'nome'>('recente');
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -88,6 +92,27 @@ export default function MeusPaineisPage() {
     setMenuAberto(null);
   };
 
+  // Filtrar e ordenar painéis
+  const paineisFiltrados = paineis
+    .filter((painel) => {
+      if (!busca) return true;
+      const buscaLower = busca.toLowerCase();
+      return (
+        painel.nomeEvento?.toLowerCase().includes(buscaLower) ||
+        painel.descricao?.toLowerCase().includes(buscaLower)
+      );
+    })
+    .sort((a, b) => {
+      if (ordenacao === 'recente') {
+        return new Date(b.criadoEm).getTime() - new Date(a.criadoEm).getTime();
+      } else if (ordenacao === 'antigo') {
+        return new Date(a.criadoEm).getTime() - new Date(b.criadoEm).getTime();
+      } else {
+        // ordenação por nome
+        return (a.nomeEvento || '').localeCompare(b.nomeEvento || '');
+      }
+    });
+
   return (
     <div className="min-h-screen bg-white">
       <Header />
@@ -112,6 +137,37 @@ export default function MeusPaineisPage() {
           </Button>
         </div>
 
+        {/* Busca e Filtros */}
+        {paineis.length > 0 && (
+          <div className="mb-6 flex flex-col sm:flex-row gap-4">
+            {/* Campo de busca */}
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Buscar por nome ou descrição..."
+                value={busca}
+                onChange={(e) => setBusca(e.target.value)}
+                className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--versopag-primary)] focus:border-transparent transition-all"
+              />
+            </div>
+
+            {/* Ordenação */}
+            <div className="flex items-center gap-2">
+              <SortAsc className="h-5 w-5 text-gray-500" />
+              <select
+                value={ordenacao}
+                onChange={(e) => setOrdenacao(e.target.value as 'recente' | 'antigo' | 'nome')}
+                className="px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-[var(--versopag-primary)] focus:border-transparent transition-all bg-white"
+              >
+                <option value="recente">Mais recentes</option>
+                <option value="antigo">Mais antigos</option>
+                <option value="nome">Nome (A-Z)</option>
+              </select>
+            </div>
+          </div>
+        )}
+
         {/* Lista de Painéis */}
         {paineis.length === 0 ? (
           <div className="text-center py-16">
@@ -132,9 +188,28 @@ export default function MeusPaineisPage() {
               Criar Primeiro Painel
             </Button>
           </div>
+        ) : paineisFiltrados.length === 0 ? (
+          <div className="text-center py-16">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 mb-4">
+              <Search className="h-8 w-8 text-gray-400" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              Nenhum painel encontrado
+            </h3>
+            <p className="text-gray-600 mb-6">
+              Tente ajustar os filtros ou termos de busca
+            </p>
+            <Button
+              onClick={() => setBusca('')}
+              variant="outline"
+              className="border-gray-200"
+            >
+              Limpar busca
+            </Button>
+          </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {paineis.map((painel) => (
+            {paineisFiltrados.map((painel) => (
               <div
                 key={painel.id}
                 className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-shadow relative group"

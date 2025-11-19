@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { ImageUpload } from '@/components/ImageUpload';
+import { useToast } from '@/components/ui/toast';
 import {
   Field,
   FieldLabel,
@@ -66,6 +67,7 @@ interface ConfiguracaoPainel {
 export default function CriarPainelPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const { showToast } = useToast();
   const [activeTab, setActiveTab] = useState<TabType>('basico');
   const [previewDevice, setPreviewDevice] = useState<'desktop' | 'mobile'>('desktop');
 
@@ -161,7 +163,7 @@ export default function CriarPainelPage() {
       localStorage.setItem('paineisSalvos', JSON.stringify(paineisSalvos));
 
       // Feedback visual
-      alert('Painel salvo com sucesso!');
+      showToast('Painel criado com sucesso!', 'success');
 
       // Redirecionar para página de painéis
       router.push('/painel/meus-paineis');
@@ -174,7 +176,7 @@ export default function CriarPainelPage() {
       // });
     } catch (error) {
       console.error('Erro ao salvar:', error);
-      alert('Erro ao salvar painel. Tente novamente.');
+      showToast('Erro ao salvar painel. Tente novamente.', 'error');
     }
   };
 
