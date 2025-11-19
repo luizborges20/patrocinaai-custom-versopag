@@ -875,6 +875,7 @@ export default function CriarPainelPage() {
                   {/* Footer do Painel */}
                   {config.exibirRodape && config.exibirQRCode && (
                     <div className="flex items-center justify-between">
+                      {/* Logo VersoPag - Esquerda */}
                       <div className="flex items-center gap-2">
                         <div
                           className="h-6 w-6 rounded"
@@ -882,21 +883,37 @@ export default function CriarPainelPage() {
                         />
                         <span
                           className="text-xs"
-                          style={{ color: config.corTexto }}
+                          style={{ color: config.corTexto, fontFamily: config.fonteCorpo }}
                         >
                           VersoPag
                         </span>
                       </div>
-                      <div
-                        className="text-xs"
-                        style={{ color: config.corDestaque }}
-                      >
-                        {config.textoQRCode}
+
+                      {/* Texto + QR Code - Direita */}
+                      <div className="flex items-center gap-4">
+                        <div className="flex flex-col text-right">
+                          <div
+                            className="text-base font-bold"
+                            style={{ color: config.corDestaque, fontFamily: config.fonteTitulo }}
+                          >
+                            DIVULGUE SUA MARCA
+                          </div>
+                          <div
+                            className="text-sm"
+                            style={{ color: config.corTexto, fontFamily: config.fonteCorpo }}
+                          >
+                            ESCANEIE O QR CODE
+                          </div>
+                        </div>
+                        <div
+                          className="h-16 w-16 rounded bg-white flex items-center justify-center"
+                        >
+                          <div
+                            className="h-14 w-14 rounded"
+                            style={{ backgroundColor: config.corTexto }}
+                          />
+                        </div>
                       </div>
-                      <div
-                        className="h-12 w-12 rounded"
-                        style={{ backgroundColor: config.corTexto }}
-                      />
                     </div>
                   )}
                 </div>
