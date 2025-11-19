@@ -58,7 +58,8 @@ interface ConfiguracaoPainel {
   animacao: AnimacaoTipo;
   velocidadeAnimacao: number;
   exibirQRCode: boolean;
-  textoQRCode: string;
+  textoQRCodePrincipal: string;
+  textoQRCodeSecundario: string;
   exibirRedesSociais: boolean;
 }
 
@@ -97,7 +98,8 @@ export default function CriarPainelPage() {
     animacao: 'fade',
     velocidadeAnimacao: 1,
     exibirQRCode: true,
-    textoQRCode: 'DIVULGUE SUA MARCA • ESCANEIE O QR CODE',
+    textoQRCodePrincipal: 'DIVULGUE SUA MARCA',
+    textoQRCodeSecundario: 'ESCANEIE O QR CODE',
     exibirRedesSociais: true,
   });
 
@@ -660,15 +662,35 @@ export default function CriarPainelPage() {
                   </Field>
 
                   {config.exibirQRCode && (
-                    <Field>
-                      <FieldLabel htmlFor="texto-qrcode">Texto do QR Code</FieldLabel>
-                      <Input
-                        id="texto-qrcode"
-                        type="text"
-                        value={config.textoQRCode}
-                        onChange={(e) => updateConfig({ textoQRCode: e.target.value })}
-                      />
-                    </Field>
+                    <>
+                      <Field>
+                        <FieldLabel htmlFor="texto-qrcode-principal">Texto Principal do QR Code</FieldLabel>
+                        <Input
+                          id="texto-qrcode-principal"
+                          type="text"
+                          value={config.textoQRCodePrincipal}
+                          onChange={(e) => updateConfig({ textoQRCodePrincipal: e.target.value })}
+                          placeholder="DIVULGUE SUA MARCA"
+                        />
+                        <FieldDescription>
+                          Texto em destaque ao lado do QR Code
+                        </FieldDescription>
+                      </Field>
+
+                      <Field>
+                        <FieldLabel htmlFor="texto-qrcode-secundario">Texto Secundário do QR Code</FieldLabel>
+                        <Input
+                          id="texto-qrcode-secundario"
+                          type="text"
+                          value={config.textoQRCodeSecundario}
+                          onChange={(e) => updateConfig({ textoQRCodeSecundario: e.target.value })}
+                          placeholder="ESCANEIE O QR CODE"
+                        />
+                        <FieldDescription>
+                          Texto menor abaixo do principal
+                        </FieldDescription>
+                      </Field>
+                    </>
                   )}
 
                   <Field>
@@ -929,18 +951,22 @@ export default function CriarPainelPage() {
                       {/* Texto + QR Code - Direita */}
                       <div className="flex items-center gap-4">
                         <div className="flex flex-col text-right">
-                          <div
-                            className="text-base font-bold"
-                            style={{ color: config.corDestaque, fontFamily: config.fonteTitulo }}
-                          >
-                            DIVULGUE SUA MARCA
-                          </div>
-                          <div
-                            className="text-sm"
-                            style={{ color: config.corTexto, fontFamily: config.fonteCorpo }}
-                          >
-                            ESCANEIE O QR CODE
-                          </div>
+                          {config.textoQRCodePrincipal && (
+                            <div
+                              className="text-base font-bold"
+                              style={{ color: config.corDestaque, fontFamily: config.fonteTitulo }}
+                            >
+                              {config.textoQRCodePrincipal}
+                            </div>
+                          )}
+                          {config.textoQRCodeSecundario && (
+                            <div
+                              className="text-sm"
+                              style={{ color: config.corTexto, fontFamily: config.fonteCorpo }}
+                            >
+                              {config.textoQRCodeSecundario}
+                            </div>
+                          )}
                         </div>
                         <div
                           className="h-16 w-16 rounded bg-white flex items-center justify-center"

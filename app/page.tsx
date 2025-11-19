@@ -467,9 +467,10 @@ export default function Home() {
                               {/* QR code pattern overlay */}
                               <div className="absolute inset-0 opacity-10">
                                 <div className="grid grid-cols-8 grid-rows-8 h-full w-full">
-                                  {[...Array(64)].map((_, i) => (
-                                    <div key={i} className={`${Math.random() > 0.5 ? 'bg-white' : ''}`} />
-                                  ))}
+                                  {[...Array(64)].map((_, i) => {
+                                    const pattern = [1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 1];
+                                    return <div key={i} className={`${pattern[i] ? 'bg-white' : ''}`} />;
+                                  })}
                                 </div>
                               </div>
                             </div>
