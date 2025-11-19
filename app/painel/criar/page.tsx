@@ -5,6 +5,13 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { Header } from '@/components/Header';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import {
+  Field,
+  FieldLabel,
+  FieldDescription,
+} from '@/components/ui/field';
 import {
   Sparkles,
   Palette,
@@ -168,50 +175,45 @@ export default function CriarPainelPage() {
             </div>
 
             {/* Conteúdo das Tabs */}
-            <div className="space-y-6 max-h-[600px] overflow-y-auto pr-4">
+            <div className="space-y-6 max-h-[600px] overflow-y-auto pr-4 pl-1">
               {/* ABA BÁSICO */}
               {activeTab === 'basico' && (
                 <>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-900 mb-2">
-                      Nome do Evento
-                    </label>
-                    <input
+                  <Field>
+                    <FieldLabel htmlFor="nome-evento">Nome do Evento</FieldLabel>
+                    <Input
+                      id="nome-evento"
                       type="text"
                       value={config.nomeEvento}
                       onChange={(e) => updateConfig({ nomeEvento: e.target.value })}
                       placeholder="Meu Evento 2025"
-                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--versopag-primary)] focus:border-transparent transition-all"
                     />
-                    <p className="mt-1 text-sm text-gray-500">
+                    <FieldDescription>
                       Este nome aparecerá no topo do painel
-                    </p>
-                  </div>
+                    </FieldDescription>
+                  </Field>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-900 mb-2">
-                      Descrição
-                    </label>
-                    <textarea
+                  <Field>
+                    <FieldLabel htmlFor="descricao">Descrição</FieldLabel>
+                    <Textarea
+                      id="descricao"
                       value={config.descricao}
                       onChange={(e) => updateConfig({ descricao: e.target.value })}
                       placeholder="Descrição do evento"
                       rows={3}
-                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--versopag-primary)] focus:border-transparent transition-all resize-none"
                     />
-                  </div>
+                  </Field>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-900 mb-2">
-                      Logo do Evento (URL)
-                    </label>
+                  <Field>
+                    <FieldLabel htmlFor="logo-evento">Logo do Evento (URL)</FieldLabel>
                     <div className="flex gap-2">
-                      <input
+                      <Input
+                        id="logo-evento"
                         type="text"
                         value={config.logoEventoUrl}
                         onChange={(e) => updateConfig({ logoEventoUrl: e.target.value })}
                         placeholder="https://exemplo.com/logo.png"
-                        className="flex-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--versopag-primary)] focus:border-transparent transition-all"
+                        className="flex-1"
                       />
                       <Button
                         variant="outline"
@@ -221,19 +223,20 @@ export default function CriarPainelPage() {
                         Upload
                       </Button>
                     </div>
-                  </div>
+                  </Field>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-900 mb-2">
+                  <Field>
+                    <FieldLabel htmlFor="logo-patrocinador">
                       Logo Patrocinador Exemplo (URL)
-                    </label>
+                    </FieldLabel>
                     <div className="flex gap-2">
-                      <input
+                      <Input
+                        id="logo-patrocinador"
                         type="text"
                         value={config.logoPatrocinadorUrl}
                         onChange={(e) => updateConfig({ logoPatrocinadorUrl: e.target.value })}
                         placeholder="https://exemplo.com/patrocinador.png"
-                        className="flex-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--versopag-primary)] focus:border-transparent transition-all"
+                        className="flex-1"
                       />
                       <Button
                         variant="outline"
@@ -243,10 +246,10 @@ export default function CriarPainelPage() {
                         Upload
                       </Button>
                     </div>
-                    <p className="mt-1 text-sm text-gray-500">
+                    <FieldDescription>
                       Use para testar o preview com um logo de exemplo
-                    </p>
-                  </div>
+                    </FieldDescription>
+                  </Field>
                 </>
               )}
 
@@ -254,92 +257,87 @@ export default function CriarPainelPage() {
               {activeTab === 'design' && (
                 <>
                   <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-900 mb-2">
-                        Cor de Fundo
-                      </label>
+                    <Field>
+                      <FieldLabel htmlFor="cor-fundo">Cor de Fundo</FieldLabel>
                       <div className="flex gap-2">
                         <input
                           type="color"
                           value={config.corFundo}
                           onChange={(e) => updateConfig({ corFundo: e.target.value })}
-                          className="h-12 w-12 rounded-lg border border-gray-200 cursor-pointer"
+                          className="h-9 w-12 rounded-lg border border-gray-200 cursor-pointer"
                         />
-                        <input
+                        <Input
+                          id="cor-fundo"
                           type="text"
                           value={config.corFundo}
                           onChange={(e) => updateConfig({ corFundo: e.target.value })}
-                          className="flex-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-[var(--versopag-primary)] focus:border-transparent transition-all"
+                          className="flex-1"
                         />
                       </div>
-                    </div>
+                    </Field>
 
-                    <div>
-                      <label className="block text-sm font-medium text-gray-900 mb-2">
-                        Cor do Texto
-                      </label>
+                    <Field>
+                      <FieldLabel htmlFor="cor-texto">Cor do Texto</FieldLabel>
                       <div className="flex gap-2">
                         <input
                           type="color"
                           value={config.corTexto}
                           onChange={(e) => updateConfig({ corTexto: e.target.value })}
-                          className="h-12 w-12 rounded-lg border border-gray-200 cursor-pointer"
+                          className="h-9 w-12 rounded-lg border border-gray-200 cursor-pointer"
                         />
-                        <input
+                        <Input
+                          id="cor-texto"
                           type="text"
                           value={config.corTexto}
                           onChange={(e) => updateConfig({ corTexto: e.target.value })}
-                          className="flex-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-[var(--versopag-primary)] focus:border-transparent transition-all"
+                          className="flex-1"
                         />
                       </div>
-                    </div>
+                    </Field>
 
-                    <div>
-                      <label className="block text-sm font-medium text-gray-900 mb-2">
-                        Cor de Destaque
-                      </label>
+                    <Field>
+                      <FieldLabel htmlFor="cor-destaque">Cor de Destaque</FieldLabel>
                       <div className="flex gap-2">
                         <input
                           type="color"
                           value={config.corDestaque}
                           onChange={(e) => updateConfig({ corDestaque: e.target.value })}
-                          className="h-12 w-12 rounded-lg border border-gray-200 cursor-pointer"
+                          className="h-9 w-12 rounded-lg border border-gray-200 cursor-pointer"
                         />
-                        <input
+                        <Input
+                          id="cor-destaque"
                           type="text"
                           value={config.corDestaque}
                           onChange={(e) => updateConfig({ corDestaque: e.target.value })}
-                          className="flex-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-[var(--versopag-primary)] focus:border-transparent transition-all"
+                          className="flex-1"
                         />
                       </div>
-                    </div>
+                    </Field>
 
-                    <div>
-                      <label className="block text-sm font-medium text-gray-900 mb-2">
-                        Cor Secundária
-                      </label>
+                    <Field>
+                      <FieldLabel htmlFor="cor-secundaria">Cor Secundária</FieldLabel>
                       <div className="flex gap-2">
                         <input
                           type="color"
                           value={config.corSecundaria}
                           onChange={(e) => updateConfig({ corSecundaria: e.target.value })}
-                          className="h-12 w-12 rounded-lg border border-gray-200 cursor-pointer"
+                          className="h-9 w-12 rounded-lg border border-gray-200 cursor-pointer"
                         />
-                        <input
+                        <Input
+                          id="cor-secundaria"
                           type="text"
                           value={config.corSecundaria}
                           onChange={(e) => updateConfig({ corSecundaria: e.target.value })}
-                          className="flex-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-[var(--versopag-primary)] focus:border-transparent transition-all"
+                          className="flex-1"
                         />
                       </div>
-                    </div>
+                    </Field>
                   </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-900 mb-2">
-                      Fonte do Título
-                    </label>
+                  <Field>
+                    <FieldLabel htmlFor="fonte-titulo">Fonte do Título</FieldLabel>
                     <select
+                      id="fonte-titulo"
                       value={config.fonteTitulo}
                       onChange={(e) => updateConfig({ fonteTitulo: e.target.value })}
                       className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-[var(--versopag-primary)] focus:border-transparent transition-all"
@@ -351,13 +349,12 @@ export default function CriarPainelPage() {
                       <option value="Open Sans">Open Sans</option>
                       <option value="Arial">Arial</option>
                     </select>
-                  </div>
+                  </Field>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-900 mb-2">
-                      Fonte do Corpo
-                    </label>
+                  <Field>
+                    <FieldLabel htmlFor="fonte-corpo">Fonte do Corpo</FieldLabel>
                     <select
+                      id="fonte-corpo"
                       value={config.fonteCorpo}
                       onChange={(e) => updateConfig({ fonteCorpo: e.target.value })}
                       className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-[var(--versopag-primary)] focus:border-transparent transition-all"
@@ -369,17 +366,15 @@ export default function CriarPainelPage() {
                       <option value="Open Sans">Open Sans</option>
                       <option value="Arial">Arial</option>
                     </select>
-                  </div>
+                  </Field>
                 </>
               )}
 
               {/* ABA LAYOUT */}
               {activeTab === 'layout' && (
                 <>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-900 mb-3">
-                      Orientação da Página
-                    </label>
+                  <Field>
+                    <FieldLabel>Orientação da Página</FieldLabel>
                     <div className="grid grid-cols-2 gap-4">
                       <button
                         onClick={() => updateConfig({ orientacao: 'horizontal' })}
@@ -410,12 +405,10 @@ export default function CriarPainelPage() {
                         <div className="text-xs text-gray-500">9:16 (Portrait)</div>
                       </button>
                     </div>
-                  </div>
+                  </Field>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-900 mb-3">
-                      Posição do Logo do Evento
-                    </label>
+                  <Field>
+                    <FieldLabel>Posição do Logo do Evento</FieldLabel>
                     <div className="grid grid-cols-2 gap-3">
                       {[
                         { value: 'topo' as PosicaoLogo, label: 'Topo' },
@@ -436,14 +429,15 @@ export default function CriarPainelPage() {
                         </button>
                       ))}
                     </div>
-                  </div>
+                  </Field>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-900 mb-2">
+                  <Field>
+                    <FieldLabel htmlFor="quantidade-logos">
                       Quantidade de Logos por Apresentação
-                    </label>
+                    </FieldLabel>
                     <div className="flex items-center gap-4">
                       <input
+                        id="quantidade-logos"
                         type="range"
                         min="1"
                         max="9"
@@ -457,17 +451,18 @@ export default function CriarPainelPage() {
                         {config.quantidadeLogosExibicao}
                       </span>
                     </div>
-                    <p className="mt-1 text-sm text-gray-500">
+                    <FieldDescription>
                       Quantos patrocinadores aparecem ao mesmo tempo
-                    </p>
-                  </div>
+                    </FieldDescription>
+                  </Field>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-900 mb-2">
+                  <Field>
+                    <FieldLabel htmlFor="espacamento-logos">
                       Espaçamento entre Logos (px)
-                    </label>
+                    </FieldLabel>
                     <div className="flex items-center gap-4">
                       <input
+                        id="espacamento-logos"
                         type="range"
                         min="0"
                         max="100"
@@ -481,14 +476,13 @@ export default function CriarPainelPage() {
                         {config.espacamentoLogos}
                       </span>
                     </div>
-                  </div>
+                  </Field>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-900 mb-2">
-                      Margens (px)
-                    </label>
+                  <Field>
+                    <FieldLabel htmlFor="margens">Margens (px)</FieldLabel>
                     <div className="flex items-center gap-4">
                       <input
+                        id="margens"
                         type="range"
                         min="0"
                         max="100"
@@ -502,19 +496,20 @@ export default function CriarPainelPage() {
                         {config.margens}
                       </span>
                     </div>
-                  </div>
+                  </Field>
                 </>
               )}
 
               {/* ABA AVANÇADO */}
               {activeTab === 'avancado' && (
                 <>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-900 mb-2">
+                  <Field>
+                    <FieldLabel htmlFor="tempo-exibicao">
                       Tempo de Exibição por Slide (segundos)
-                    </label>
+                    </FieldLabel>
                     <div className="flex items-center gap-4">
                       <input
+                        id="tempo-exibicao"
                         type="range"
                         min="1"
                         max="30"
@@ -528,12 +523,10 @@ export default function CriarPainelPage() {
                         {config.tempoExibicao}s
                       </span>
                     </div>
-                  </div>
+                  </Field>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-900 mb-3">
-                      Tipo de Animação
-                    </label>
+                  <Field>
+                    <FieldLabel>Tipo de Animação</FieldLabel>
                     <div className="grid grid-cols-2 gap-3">
                       {[
                         { value: 'fade' as AnimacaoTipo, label: 'Fade' },
@@ -554,14 +547,15 @@ export default function CriarPainelPage() {
                         </button>
                       ))}
                     </div>
-                  </div>
+                  </Field>
 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-900 mb-2">
+                  <Field>
+                    <FieldLabel htmlFor="velocidade-animacao">
                       Velocidade da Animação
-                    </label>
+                    </FieldLabel>
                     <div className="flex items-center gap-4">
                       <input
+                        id="velocidade-animacao"
                         type="range"
                         min="0.5"
                         max="3"
@@ -576,63 +570,65 @@ export default function CriarPainelPage() {
                         {config.velocidadeAnimacao}x
                       </span>
                     </div>
-                  </div>
+                  </Field>
 
-                  <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
-                    <div>
-                      <div className="text-sm font-medium text-gray-900">
-                        Exibir QR Code
+                  <Field>
+                    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                      <div>
+                        <div className="text-sm font-medium text-gray-900">
+                          Exibir QR Code
+                        </div>
+                        <div className="text-xs text-gray-500">
+                          Mostrar QR Code para participação
+                        </div>
                       </div>
-                      <div className="text-xs text-gray-500">
-                        Mostrar QR Code para participação
-                      </div>
+                      <label className="relative inline-flex items-center cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={config.exibirQRCode}
+                          onChange={(e) => updateConfig({ exibirQRCode: e.target.checked })}
+                          className="sr-only peer"
+                        />
+                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[var(--versopag-primary)]/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gray-900"></div>
+                      </label>
                     </div>
-                    <label className="relative inline-flex items-center cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={config.exibirQRCode}
-                        onChange={(e) => updateConfig({ exibirQRCode: e.target.checked })}
-                        className="sr-only peer"
-                      />
-                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[var(--versopag-primary)]/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gray-900"></div>
-                    </label>
-                  </div>
+                  </Field>
 
                   {config.exibirQRCode && (
-                    <div>
-                      <label className="block text-sm font-medium text-gray-900 mb-2">
-                        Texto do QR Code
-                      </label>
-                      <input
+                    <Field>
+                      <FieldLabel htmlFor="texto-qrcode">Texto do QR Code</FieldLabel>
+                      <Input
+                        id="texto-qrcode"
                         type="text"
                         value={config.textoQRCode}
                         onChange={(e) => updateConfig({ textoQRCode: e.target.value })}
-                        className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-[var(--versopag-primary)] focus:border-transparent transition-all"
                       />
-                    </div>
+                    </Field>
                   )}
 
-                  <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
-                    <div>
-                      <div className="text-sm font-medium text-gray-900">
-                        Exibir Redes Sociais
+                  <Field>
+                    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                      <div>
+                        <div className="text-sm font-medium text-gray-900">
+                          Exibir Redes Sociais
+                        </div>
+                        <div className="text-xs text-gray-500">
+                          Mostrar Instagram e telefone do patrocinador
+                        </div>
                       </div>
-                      <div className="text-xs text-gray-500">
-                        Mostrar Instagram e telefone do patrocinador
-                      </div>
+                      <label className="relative inline-flex items-center cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={config.exibirRedesSociais}
+                          onChange={(e) =>
+                            updateConfig({ exibirRedesSociais: e.target.checked })
+                          }
+                          className="sr-only peer"
+                        />
+                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[var(--versopag-primary)]/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gray-900"></div>
+                      </label>
                     </div>
-                    <label className="relative inline-flex items-center cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={config.exibirRedesSociais}
-                        onChange={(e) =>
-                          updateConfig({ exibirRedesSociais: e.target.checked })
-                        }
-                        className="sr-only peer"
-                      />
-                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[var(--versopag-primary)]/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gray-900"></div>
-                    </label>
-                  </div>
+                  </Field>
                 </>
               )}
             </div>
