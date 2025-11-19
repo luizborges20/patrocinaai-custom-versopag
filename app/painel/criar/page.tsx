@@ -50,6 +50,8 @@ interface ConfiguracaoPainel {
   quantidadeLogosExibicao: number;
   espacamentoLogos: number;
   margens: number;
+  exibirCabecalho: boolean;
+  exibirRodape: boolean;
 
   // Avançado
   tempoExibicao: number;
@@ -78,8 +80,8 @@ export default function CriarPainelPage() {
     corTexto: '#FFFFFF',
     corDestaque: '#FFD700',
     corSecundaria: '#2E2E2E',
-    fonteTitulo: 'Inter',
-    fonteCorpo: 'Inter',
+    fonteTitulo: 'Poppins',
+    fonteCorpo: 'Poppins',
 
     // Layout
     orientacao: 'horizontal',
@@ -87,6 +89,8 @@ export default function CriarPainelPage() {
     quantidadeLogosExibicao: 1,
     espacamentoLogos: 20,
     margens: 40,
+    exibirCabecalho: true,
+    exibirRodape: true,
 
     // Avançado
     tempoExibicao: 5,
@@ -102,6 +106,23 @@ export default function CriarPainelPage() {
       router.push('/login');
     }
   }, [status, router]);
+
+  // Carregar fontes do Google Fonts dinamicamente
+  useEffect(() => {
+    const loadFont = (fontName: string) => {
+      const linkId = `font-${fontName.replace(/\s+/g, '-')}`;
+      if (!document.getElementById(linkId)) {
+        const link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = `https://fonts.googleapis.com/css2?family=${fontName.replace(/\s+/g, '+')}:wght@400;500;600;700&display=swap`;
+        document.head.appendChild(link);
+      }
+    };
+
+    loadFont(config.fonteTitulo);
+    loadFont(config.fonteCorpo);
+  }, [config.fonteTitulo, config.fonteCorpo]);
 
   if (status === 'loading') {
     return (
@@ -497,6 +518,50 @@ export default function CriarPainelPage() {
                       </span>
                     </div>
                   </Field>
+
+                  <Field>
+                    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                      <div>
+                        <div className="text-sm font-medium text-gray-900">
+                          Exibir Cabeçalho
+                        </div>
+                        <div className="text-xs text-gray-500">
+                          Mostrar cabeçalho com logos e nome do evento
+                        </div>
+                      </div>
+                      <label className="relative inline-flex items-center cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={config.exibirCabecalho}
+                          onChange={(e) => updateConfig({ exibirCabecalho: e.target.checked })}
+                          className="sr-only peer"
+                        />
+                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[var(--versopag-primary)]/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gray-900"></div>
+                      </label>
+                    </div>
+                  </Field>
+
+                  <Field>
+                    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
+                      <div>
+                        <div className="text-sm font-medium text-gray-900">
+                          Exibir Rodapé
+                        </div>
+                        <div className="text-xs text-gray-500">
+                          Mostrar rodapé com logo VersoPag e QR Code
+                        </div>
+                      </div>
+                      <label className="relative inline-flex items-center cursor-pointer">
+                        <input
+                          type="checkbox"
+                          checked={config.exibirRodape}
+                          onChange={(e) => updateConfig({ exibirRodape: e.target.checked })}
+                          className="sr-only peer"
+                        />
+                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[var(--versopag-primary)]/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-gray-900"></div>
+                      </label>
+                    </div>
+                  </Field>
                 </>
               )}
 
@@ -696,18 +761,19 @@ export default function CriarPainelPage() {
               >
                 <div className="h-full flex flex-col justify-between">
                   {/* Header do Painel */}
-                  <div
-                    className={`flex items-center ${
-                      config.posicaoLogoEvento === 'topo'
-                        ? 'justify-center'
-                        : config.posicaoLogoEvento === 'laterais'
-                        ? 'justify-between'
-                        : config.posicaoLogoEvento === 'cantos'
-                        ? 'justify-between'
-                        : 'justify-center'
-                    }`}
-                    style={{ gap: `${config.espacamentoLogos}px` }}
-                  >
+                  {config.exibirCabecalho && (
+                    <div
+                      className={`flex items-center ${
+                        config.posicaoLogoEvento === 'topo'
+                          ? 'justify-center'
+                          : config.posicaoLogoEvento === 'laterais'
+                          ? 'justify-between'
+                          : config.posicaoLogoEvento === 'cantos'
+                          ? 'justify-between'
+                          : 'justify-center'
+                      }`}
+                      style={{ gap: `${config.espacamentoLogos}px` }}
+                    >
                     {(config.posicaoLogoEvento === 'laterais' ||
                       config.posicaoLogoEvento === 'cantos') && (
                       <div className="flex items-center gap-4">
@@ -758,7 +824,8 @@ export default function CriarPainelPage() {
                         )}
                       </div>
                     )}
-                  </div>
+                    </div>
+                  )}
 
                   {/* Conteúdo do Painel - Grid de Logos */}
                   <div
@@ -806,7 +873,7 @@ export default function CriarPainelPage() {
                   </div>
 
                   {/* Footer do Painel */}
-                  {config.exibirQRCode && (
+                  {config.exibirRodape && config.exibirQRCode && (
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <div
