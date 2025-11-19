@@ -461,7 +461,7 @@ export default function CriarPainelPage() {
                         id="quantidade-logos"
                         type="range"
                         min="1"
-                        max="9"
+                        max="2"
                         value={config.quantidadeLogosExibicao}
                         onChange={(e) =>
                           updateConfig({ quantidadeLogosExibicao: parseInt(e.target.value) })
@@ -829,52 +829,89 @@ export default function CriarPainelPage() {
 
                   {/* Conteúdo do Painel - Grid de Logos */}
                   <div
-                    className={`flex-1 flex items-center justify-center p-8 grid ${
+                    className={`flex-none overflow-hidden flex items-center justify-center grid ${
                       config.quantidadeLogosExibicao === 1
                         ? 'grid-cols-1'
                         : config.quantidadeLogosExibicao <= 4
                         ? 'grid-cols-2'
                         : 'grid-cols-3'
                     }`}
-                    style={{ gap: `${config.espacamentoLogos}px` }}
+                    style={{
+                      gap: `${Math.max(config.espacamentoLogos / (config.quantidadeLogosExibicao > 6 ? 3 : config.quantidadeLogosExibicao > 3 ? 2 : 1), 12)}px`,
+                      padding: '1.5rem 1rem'
+                    }}
                   >
                     {Array.from({ length: config.quantidadeLogosExibicao }).map(
-                      (_, index) => (
-                        <div key={index} className="text-center">
-                          {config.logoPatrocinadorUrl ? (
-                            <img
-                              src={config.logoPatrocinadorUrl}
-                              alt={`Patrocinador ${index + 1}`}
-                              className="h-24 w-24 mx-auto object-contain mb-3"
-                            />
-                          ) : (
+                      (_, index) => {
+                        // Ajustar tamanho dos logos dinamicamente baseado na quantidade
+                        let logoSize, fontSize, marginBottom, hideRedesSociais = false;
+
+                        if (config.quantidadeLogosExibicao === 1) {
+                          logoSize = 'h-28 w-28';
+                          fontSize = 'text-base';
+                          marginBottom = 'mb-2';
+                        } else if (config.quantidadeLogosExibicao === 2) {
+                          logoSize = 'h-24 w-24';
+                          fontSize = 'text-sm';
+                          marginBottom = 'mb-2';
+                        } else if (config.quantidadeLogosExibicao <= 4) {
+                          logoSize = 'h-20 w-20';
+                          fontSize = 'text-sm';
+                          marginBottom = 'mb-1.5';
+                        } else if (config.quantidadeLogosExibicao <= 6) {
+                          logoSize = 'h-16 w-16';
+                          fontSize = 'text-xs';
+                          marginBottom = 'mb-1';
+                        } else if (config.quantidadeLogosExibicao <= 8) {
+                          logoSize = 'h-12 w-12';
+                          fontSize = 'text-xs';
+                          marginBottom = 'mb-1';
+                          hideRedesSociais = true;
+                        } else {
+                          // 9 logos - tamanho ainda menor
+                          logoSize = 'h-10 w-10';
+                          fontSize = 'text-xs';
+                          marginBottom = 'mb-0.5';
+                          hideRedesSociais = true;
+                        }
+
+                        return (
+                          <div key={index} className="text-center flex flex-col items-center justify-center">
+                            {config.logoPatrocinadorUrl ? (
+                              <img
+                                src={config.logoPatrocinadorUrl}
+                                alt={`Patrocinador ${index + 1}`}
+                                className={`${logoSize} mx-auto object-contain ${marginBottom}`}
+                              />
+                            ) : (
+                              <div
+                                className={`${logoSize} rounded-full mx-auto ${marginBottom}`}
+                                style={{ backgroundColor: config.corSecundaria }}
+                              />
+                            )}
                             <div
-                              className="h-24 w-24 rounded-full mx-auto mb-3"
-                              style={{ backgroundColor: config.corSecundaria }}
-                            />
-                          )}
-                          <div
-                            className="text-sm font-bold mb-1"
-                            style={{ color: config.corTexto }}
-                          >
-                            Patrocinador {index + 1}
-                          </div>
-                          {config.exibirRedesSociais && (
-                            <div
-                              className="text-xs"
-                              style={{ color: config.corTexto, opacity: 0.7 }}
+                              className={`${fontSize} font-bold ${config.exibirRedesSociais && !hideRedesSociais ? 'mb-0.5' : ''}`}
+                              style={{ color: config.corTexto }}
                             >
-                              @instagram • (00) 0000-0000
+                              Patrocinador {index + 1}
                             </div>
-                          )}
-                        </div>
-                      )
+                            {config.exibirRedesSociais && !hideRedesSociais && (
+                              <div
+                                className="text-xs leading-tight"
+                                style={{ color: config.corTexto, opacity: 0.7 }}
+                              >
+                                @instagram • (00) 0000-0000
+                              </div>
+                            )}
+                          </div>
+                        );
+                      }
                     )}
                   </div>
 
                   {/* Footer do Painel */}
                   {config.exibirRodape && config.exibirQRCode && (
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between flex-shrink-0">
                       {/* Logo VersoPag - Esquerda */}
                       <div className="flex items-center gap-2">
                         <div
